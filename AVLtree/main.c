@@ -17,10 +17,11 @@ int main(int argc, char *argv[]) {
   }
   num = Delete(54, num);
 
-  printTree(num);
+  printTree1(num, 0);
+
+  // printTree(num);
   printf("\n");
-  printf("root: %d height: %d", num->Right->Right->Right->Right->Element,
-         num->height);
+  printf("root: %d height: %d", num->Element, num->height);
 
   return 0;
 }

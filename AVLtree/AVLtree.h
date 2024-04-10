@@ -14,6 +14,8 @@ Tree DoubleRatoteLeft(Position K3);
 Tree SingleRatoteRight(Position K2);
 Tree DoubleRatoteRight(Position K3);
 int Height(Position T);
+void printTree1(Tree root, int space);
+void printTreeLevel(Tree root, int level);
 void printTree(Tree root);
 
 #endif // DEBUG

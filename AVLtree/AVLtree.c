@@ -14,9 +14,6 @@ struct AVLNode {
 // 返回两数中的较大值
 int max(int a, int b) { return (a > b) ? a : b; }
 
-// 返回两数中的较小值
-int min(int a, int b) { return (a < b) ? a : b; }
-
 // 定义函数，清空树
 void MakeEmpty(Tree root) {
   // 实现代码，将二叉树置为空
@@ -192,11 +189,11 @@ Tree Insert(ElementType x, Tree root) {
     if (Height(root->Left) - Height(root->Right) == 2) {
       // x 被插入的roo左子树的左边，用一次单旋转即可平衡
       if (x < root->Left->Element) {
-        SingleRotateLeft(root->Left);
+        root = SingleRotateLeft(root);
       }
       // x 被插入的roo左子树的右边，需要使用双旋转才能平衡
       else {
-        DoubleRotateLeft(root->Left);
+        root = DoubleRotateLeft(root);
       }
     }
   }
@@ -210,15 +207,17 @@ Tree Insert(ElementType x, Tree root) {
     if (Height(root->Right) - Height(root->Left) == 2) {
       // x 被插入的root右子树的右边，用一次单旋转即可平衡
       if (x > root->Right->Element) {
-        SingleRotateRight(root->Right);
+
+        root = SingleRotateRight(root);
       }
       // x 被插入的roo右子树的左边，需要使用双旋转才能平衡
       else {
-        DoubleRotateRight(root->Right);
+        root = DoubleRotateRight(root);
       }
     }
   }
 
+  root->height = max(Height(root->Left), Height(root->Right)) + 1;
   // 完成插入后更新父树(两种插入条件的第一行)或返回根节点
   return root;
 }
@@ -291,13 +290,33 @@ Tree Delete(ElementType x, Tree root) {
 }
 
 // 定义函数，打印树结构
-void printTree(Tree root) {
-  // 实现代码，按先序遍历并打印二叉树的所有节点信息
-  if (root == NULL) {
+// void printTree(Tree root) {
+//   // 实现代码，按先序遍历并打印二叉树的所有节点信息
+//   if (root == NULL) {
+//     return;
+//   }
+//   printTree(root->Left);
+//   printf("%d ", root->Element);
+//   printTree(root->Right);
+// }
+void printTree1(Tree root, int space) {
+  // 基本情况，根为空
+  if (root == NULL)
     return;
-  }
-  printTree(root->Left);
-  printf("%d ", root->Element);
-  printTree(root->Right);
+
+  // 增加间隔，以区分不同深度的节点
+  space += 10;
+
+  // 先处理右子树（在控制台中，右子树在上方）
+  printTree1(root->Right, space);
+
+  // 打印当前节点
+  printf("\n");
+  for (int i = 10; i < space; i++)
+    printf(" ");
+  printf("%d\n", root->Element);
+
+  // 处理左子树（在控制台中，左子树在下方）
+  printTree1(root->Left, space);
 }
 // 如何用树状结构打印出一个带height的Tree,请用c语言实现
